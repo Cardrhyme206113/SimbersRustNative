@@ -1,4 +1,4 @@
-use std::{fs::File, io::BufReader, path::Path};
+use std::{fs::File, path::Path};
 use symphonia::core::{audio::SampleBuffer, codecs::DecoderOptions, errors::Error as AudioError,
     formats::FormatOptions, io::MediaSourceStream, meta::MetadataOptions, probe::Hint};
 
@@ -12,7 +12,7 @@ pub struct DecodedAudio {
 
 pub fn decode(path:&Path, duration_limit:Option<f64>, mut progress:impl FnMut(f32))->Result<DecodedAudio,String>{
     let file=File::open(path).map_err(|e|e.to_string())?;
-    let media=MediaSourceStream::new(Box::new(BufReader::new(file)),Default::default());
+    let media=MediaSourceStream::new(Box::new(file),Default::default());
     let mut hint=Hint::new();
     if let Some(ext)=path.extension().and_then(|s|s.to_str()){hint.with_extension(ext);}
     let probed=symphonia::default::get_probe().format(&hint,media,&FormatOptions::default(),&MetadataOptions::default())
