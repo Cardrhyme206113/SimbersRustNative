@@ -12,6 +12,8 @@ jobs:
   windows-x64:
     runs-on: windows-2022
     timeout-minutes: 60
+    env:
+      RUSTFLAGS: "-C target-feature=+crt-static"
     steps:
       - name: Checkout Rust source
         uses: actions/checkout@v4
